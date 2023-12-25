@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  db1:
+    image: postgres:latest
+    container_name: postgres-db1
+    environment:
+      POSTGRES_DB: database1
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-network
+    volumes:
+      - C:\Users\new\Documents\System Design\Kv database/pg-vol/postgres-1/data:/var/lib/postgresql/data
+      - C:\Users\new\Documents\System Design\Kv database/pg-vol/postgres-1/archive:/mnt/server/archive
+
+  db2:
+    image: postgres:latest
+    container_name: postgres-db2
+    environment:
+      POSTGRES_DB: database2
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres-network
+    volumes:
+      - C:\Users\new\Documents\System Design\Kv database/pg-vol/postgres-2/data:/var/lib/postgresql/data
+      - C:\Users\new\Documents\System Design\Kv database/pg-vol/postgres-2/archive:/mnt/server/archive
+
+  rep1:
+    image: postgres:latest
+    container_name: replica-db1
+    environment:
+      POSTGRES_DB: replica1
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    networks:
+      - postgres-network
+    volumes:
+      - C:\Users\new\Documents\System Design\Kv database/pg-vol/replica-1/data:/var/lib/postgresql/data
+  rep2:
+    image: postgres:latest
+    container_name: replica-db2
+    environment:
+      POSTGRES_DB: replica2
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+    networks:
+      - postgres-network
+    volumes:
+      - C:\Users\new\Documents\System Design\Kv database/pg-vol/replica-2/data:/var/lib/postgresql/data
+
+networks:
+  postgres-network:
+    driver: bridge

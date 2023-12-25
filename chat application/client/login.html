@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 8px;
+      }
+
+      input {
+        margin-bottom: 16px;
+        padding: 8px;
+      }
+
+      button {
+        padding: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="loginForm">
+      <label for="name">Name</label>
+      <input id="name" name="name" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+
+      <button type="button" onclick="login()">Login</button>
+    </form>
+
+    <script>
+      async function login() {
+        const name = document.getElementById("name").value;
+        const password = document.getElementById("password").value;
+
+        if (name && password) {
+          const token = (
+            await fetch("http://0.0.0.0/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ name, password }),
+            }).then((res) => res.json())
+          ).token;
+          if (!token) {
+            console.log("No Token");
+            return;
+          }
+          localStorage.setItem("token", token);
+          window.location.pathname = "/chat.html";
+        } else {
+          console.log("add email alteast");
+        }
+      }
+    </script>
+  </body>
+</html>
